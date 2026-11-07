@@ -21,4 +21,10 @@ class BarangMasuk extends Model
         $num = $last ? ((int) substr($last, 3)) + 1 : 1;
         return 'TM-'.str_pad($num, 7, '0', STR_PAD_LEFT);
     }
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('dashboard_analytics_12m'));
+        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('dashboard_analytics_12m'));
+    }
 }

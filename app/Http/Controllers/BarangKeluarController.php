@@ -36,7 +36,8 @@ class BarangKeluarController extends Controller
             $query->where('jenis', $request->query('jenis'));
         }
 
-        $keluar = $query->get();
+        // Batasi 500 transaksi terbaru agar web app tetap responsif dan bebas buffer di skala 100k+
+        $keluar = $query->limit(500)->get();
 
         return view('barang-keluar.index', [
             'keluar' => $keluar,

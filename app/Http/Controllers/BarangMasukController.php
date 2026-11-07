@@ -19,8 +19,10 @@ class BarangMasukController extends Controller
      */
     public function index()
     {
+        // Batasi 500 transaksi terbaru agar web app tetap responsif dan bebas buffer di skala 100k+
         $masuk = BarangMasuk::with(['barangRel.satuanRel', 'rak', 'keranjang'])
             ->orderByDesc('id_transaksi')
+            ->limit(500)
             ->get();
 
         return view('barang-masuk.index', compact('masuk'));
